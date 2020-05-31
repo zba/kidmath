@@ -47,7 +47,7 @@ document.addEventListener('incorrect', () => {
 });
 document.addEventListener('nextLevel', () => inGameEnd = false);
 function getMaxNumber() {
-	return Math.floor(level / getNumberOfOperators() / 5);
+	return Math.floor(level / getNumberOfOperators() / 2);
 }
 
 function getNumberOfOperators() {

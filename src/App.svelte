@@ -28,6 +28,11 @@ function nextLevel() {
 	setTimeout(()=>inGame=true, 0);
 }
 </script>
+<style>
+.placeholder {
+	pointer-events: auto;
+}
+</style>
 <div>Уровень: {level.level}</div>
 <div>Ошибок: {level.levelMiss}</div>
 <div>Правильных: {level.levelSolves}</div>

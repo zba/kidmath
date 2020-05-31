@@ -23,7 +23,7 @@ document.addEventListener('correct', () => {
 	if (levelSolves > 3) {
 		level++;
 		levelMiss = 0;
-		levelSolves = 0;
+		levelSolves = 3; // to get next level there should be 3 prev correct answer
 		saveLevel();
 	}
 });
@@ -34,12 +34,13 @@ document.addEventListener('incorrect', () => {
 	}
 	console.trace('incorrect');
 	levelMiss++;
+	levelSolves = 0;
 	if (levelMiss > 3) {
 		level--;
 		if (level < 0) {
 			level = 0;
 		}
-		levelMiss = 0;
+		levelMiss = 3;
 		levelSolves = 0;
 		saveLevel();
 	}

@@ -28,17 +28,25 @@
 	border: 1px solid green;
 	min-width: 30px;
 	min-height: 30px;
+	display: flex;
 }
 .answerResult {
 	padding: 10px;
 	border: 1px solid green;
 }
 	.incorrect {
-		background: red;
+		background: salmon;
+	}
+	.correctAnswer {
+		margin-right: 10px;
+		background: lightgreen;
 	}
 </style>
 
 <div class:incorrect={done && !correct}  class="answer" use:dndzone={{items, flipDurationMs, dropFromOthersDisabled}} on:consider={handleDndConsider} on:finalize={handleDndFinalize}>
+		{#if done && !correct}
+			<div class="correctAnswer answerResult">{task.result}</div>
+		{/if}
 	{#each items as answer (answer.id)}
 		<div animate:flip="{{duration: flipDurationMs}}" class="answerResult">{answer.result}</div>
 	{/each}

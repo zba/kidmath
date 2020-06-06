@@ -6,13 +6,14 @@ import Tasks from './components/Tasks';
 import Answers from './components/Answers';
 import shuffle from 'lodash/shuffle';
 import {getLevel} from './data/progress';
-let tasks = nextTasks();
-let answers = shuffle([...tasks]);
-let level = getLevel();
+let tasks;
+let answers;
+let level;
 let next;
 let inGame = true;
 document.addEventListener('correct', solved);
 document.addEventListener('incorrect', solved);
+nextLevel();
 function solved() {
 	level = getLevel();
 	next = true;
@@ -24,6 +25,7 @@ function nextLevel() {
 	next = false;
 	tasks = nextTasks();
 	answers = shuffle([...tasks]);
+	tasks.shift();
 	inGame = false;
 	setTimeout(()=>inGame=true, 0);
 }

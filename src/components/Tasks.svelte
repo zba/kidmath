@@ -3,14 +3,14 @@
 	import TaskAnswer from './TaskAnswer';
 	export let tasks;
 	document.addEventListener('done', done);
-function done() {
-	document.removeEventListener('done', done);
-	console.log('done', tasks.find(task=>task.answered != task.result))
-	if(tasks.find(task=>task.answered != task.result)) {
-		setTimeout(() => 	document.dispatchEvent(new CustomEvent('incorrect')));
-		return;
-	}
-	setTimeout(() => 	document.dispatchEvent(new CustomEvent('correct')));
+	function done() {
+		document.removeEventListener('done', done);
+		console.log('done', tasks.find(task=>task.answered != task.result))
+		if(tasks.find(task=>task.answered != task.result)) {
+			setTimeout(() => 	document.dispatchEvent(new CustomEvent('incorrect')));
+			return;
+		}
+		setTimeout(() => 	document.dispatchEvent(new CustomEvent('correct')));
 }
 </script>
 <style>
@@ -20,6 +20,7 @@ function done() {
 	font-size: 40px;
 }
 .question {
+	display: flex;
 	padding: 10px;
 }
 </style>

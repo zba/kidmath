@@ -1,3 +1,5 @@
+/* eslint-disable indent */
+/* eslint-env browser */
 
 import shuffle from 'lodash/shuffle';
 let level = localStorage.getItem('level') || 0;
@@ -8,12 +10,14 @@ export const nextTasks = () => {
 	const operators = getOperators();
 	const maxNumber = getMaxNumber() || 1;
 	console.log(level, operators, maxNumber, getNumberOfOperators());
-	return generateTasks({ operators, maxNumber }).slice(0, limit);
+	return generateTasks({ operators, maxNumber }).slice(0, limit + 1);
 };
 export const getLevel = () => {
 	return { level, levelSolves, levelMiss };
-}
+};
 let inGameEnd;
+let inRowLevelUp = 0;
+let inRowLevelDown = 0;
 document.addEventListener('correct', () => {
 	if (inGameEnd) {
 		return;
@@ -21,13 +25,19 @@ document.addEventListener('correct', () => {
 	inGameEnd = true;
 	levelSolves++;
 	if (levelSolves > 3) {
-		level++;
+		inRowLevelUp++;
+		if (inRowLevelUp > 2) {
+			level *= 2;
+			inRowLevelUp = 0;
+		} else {
+			level++;
+		}
+		inRowLevelDown = 0;
 		levelMiss = 0;
 		levelSolves = 3; // to get next level there should be 3 prev correct answer
 		saveLevel();
 	}
 });
-
 document.addEventListener('incorrect', () => {
 	if (inGameEnd) {
 		return;
@@ -36,7 +46,12 @@ document.addEventListener('incorrect', () => {
 	levelMiss++;
 	levelSolves = 0;
 	if (levelMiss > 3) {
-		level--;
+		inRowLevelDown++;
+		if (inRowLevelDown > 3) {
+			level = Math.floor(level / 2);
+		} else {
+			level--;
+		}
 		if (level < 0) {
 			level = 0;
 		}
@@ -44,7 +59,9 @@ document.addEventListener('incorrect', () => {
 		levelSolves = 0;
 		saveLevel();
 	}
+	inRowLevelUp = 0;
 });
+// eslint-disable-next-line no-return-assign
 document.addEventListener('nextLevel', () => inGameEnd = false);
 function getMaxNumber() {
 	return Math.floor(level / getNumberOfOperators() / 2);
@@ -66,7 +83,7 @@ const operations = {
 	'/'(a, b) { return b ? a / b : null; }
 };
 function getOperators() {
-	console.log(Object.keys(operations))
+	console.log(Object.keys(operations));
 	return Object.keys(operations).slice(0, getNumberOfOperators());
 }
 

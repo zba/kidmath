@@ -4,14 +4,20 @@
 	export let tasks;
 	const originalTasks = [...tasks];
 	const flipDurationMs = 300;
+	let draggingTimeout;
 	function handleDndConsider(e) {
 		tasks = e.detail.items;
+		clearTimeout(draggingTimeout);
 	}
 	function handleDndFinalize(e) {
 		tasks = e.detail.items;
-		if (!tasks.length) {
-			document.dispatchEvent(new CustomEvent('done'));
-		}
+		clearTimeout(draggingTimeout);
+		draggingTimeout = setTimeout( () => {
+				if (tasks.length < 2) {
+					console.log(tasks);
+					document.dispatchEvent(new CustomEvent('done'));
+				}
+			}, 100);
 	}
 </script>
 

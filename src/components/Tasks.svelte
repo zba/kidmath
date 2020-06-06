@@ -2,20 +2,18 @@
 	import { each } from 'svelte/internal';
 	import TaskAnswer from './TaskAnswer';
 	export let tasks;
-	document.addEventListener('done', () => {
-		if(tasks.find(task=>task.answered != task.result)) {
-			document.dispatchEvent(new CustomEvent('incorrect'));
-			return;
-		}
-		setTimeout(() => 	document.dispatchEvent(new CustomEvent('correct')));
-	});
-
+	document.addEventListener('done', done);
+function done() {
+	document.removeEventListener('done', done);
+	console.log('done', tasks.find(task=>task.answered != task.result))
+	if(tasks.find(task=>task.answered != task.result)) {
+		setTimeout(() => 	document.dispatchEvent(new CustomEvent('incorrect')));
+		return;
+	}
+	setTimeout(() => 	document.dispatchEvent(new CustomEvent('correct')));
+}
 </script>
 <style>
-section {
-	display: flex;
-	flex-wrap: wrap;
-}
 .task {
 	border: 1px solid red;
 	display: flex;

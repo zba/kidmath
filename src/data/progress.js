@@ -80,6 +80,7 @@ function generateTasks({ operators = ['+'], maxNumber = 10, onlyPositive = true,
 					const result = operations[operator](i, n);
 					const task = `${i} ${operator} ${n}`;
 					if (result !== null &&
+						result * 3 < maxNumber * 2 &&
 						(onlyPositive ? result >= 0 : true) &&
 						(onlyInteger ? result === Math.ceil(result) : true)) {
 						tasks.push({ task, result, answered: {}, id });

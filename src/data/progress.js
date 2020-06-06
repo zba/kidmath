@@ -64,7 +64,7 @@ document.addEventListener('incorrect', () => {
 // eslint-disable-next-line no-return-assign
 document.addEventListener('nextLevel', () => inGameEnd = false);
 function getMaxNumber() {
-	return Math.floor(level / getNumberOfOperators() / 2);
+	return Math.floor(level / getNumberOfOperators() / 2) + 2;
 }
 
 function getNumberOfOperators() {

@@ -29,10 +29,7 @@
 	min-width: 30px;
 	min-height: 30px;
 	display: flex;
-}
-.answerResult {
-	padding: 10px;
-	border: 1px solid green;
+	flex-grow: 1;
 }
 	.incorrect {
 		background: salmon;

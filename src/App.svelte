@@ -1,56 +1,42 @@
 <script>
-import {nextTasks} from './data/progress';
-import { flip } from 'svelte/animate';
-import { dndzone } from 'svelte-dnd-action';
-import Tasks from './components/Tasks';
-import Answers from './components/Answers';
-import shuffle from 'lodash/shuffle';
-import {getLevel} from './data/progress';
-let tasks;
-let answers;
-let level;
-let next;
-let inGame = true;
-document.addEventListener('correct', solved);
-document.addEventListener('incorrect', solved);
-nextLevel();
-function solved() {
-	level = getLevel();
-	next = true;
+import Game from './Game';
+import ParentPage from './ParentPage';
+let started;
+let parentPageShown;
+function start() {
+	console.log('!!!!');
+	started = true;
 }
-function nextLevel() {
-	document.dispatchEvent(new CustomEvent('nextLevel'));
-	tasks = nextTasks();
-	level = getLevel();
-	next = false;
-	tasks = nextTasks();
-	answers = shuffle([...tasks]);
-	tasks.shift();
-	inGame = false;
-	setTimeout(()=>inGame=true, 0);
+function parentPage() {
+	parentPageShown = true;
 }
 </script>
 <style>
-.placeholder {
-	pointer-events: auto;
-}
-.App {
+.startButton {
+	width: 50%;
+	height: 50%;
+	font-size: 30px;
 	display: flex;
-	flex-direction: column;
+	place-content: center;
+	place-items: center;
+	background: lightgreen;
+	cursor: pointer;
 }
-
+.parentButton {
+	background: lightsalmon;
+}
 </style>
-<div class="App">
-<div>Уровень: {level.level}</div>
-<div>Ошибок: {level.levelMiss}</div>
-<div>Правильных: {level.levelSolves}</div>
-{#if inGame}
-<Tasks tasks={tasks}/>
-{#if !next}
-<Answers class="answers" tasks={answers}/>
-{/if}
-{/if}
-{#if next}
-<button class:hidden={!next} on:click={nextLevel}>Дальше</button>
-{/if}
+<div>
+	{#if started}
+		<Game/>
+	{/if}
+	{#if !started}
+	{#if !parentPageShown}
+	<div class="startButton" on:click={start}>Начать</div>
+	<div class="startButton parentButton" on:click={parentPage}>Родителям</div>
+	{/if}
+	{/if}
 </div>
+{#if parentPageShown}
+	<ParentPage/>
+{/if}

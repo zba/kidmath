@@ -10,15 +10,16 @@
 		console.log('done', tasks.find(task=>task.answered != task.result))
 		if(tasks.find(task => task.answered != task.result)) {
 			setTimeout(() => 	document.dispatchEvent(new CustomEvent('incorrect')));
-			return;
+		} else {
+			setTimeout(() => 	document.dispatchEvent(new CustomEvent('correct')));
 		}
-		setTimeout(() => 	document.dispatchEvent(new CustomEvent('correct')));
 		if (soundEnabled) {
 			await speak();
 		}
 		document.dispatchEvent(new CustomEvent('showNext'));
 }
 async function speak(i = 0) {
+	console.log('speak')
 	if (i >= tasks.length) {
 		return;
 	}

@@ -2,6 +2,7 @@
 import Game from './Game';
 import ParentPage from './ParentPage';
 let started;
+let level = localStorage.level;
 let parentPageShown;
 function start() {
 	console.log('!!!!');
@@ -31,6 +32,7 @@ function parentPage() {
 		<Game/>
 	{/if}
 	{#if !started}
+	<div>Уровень {level}</div>
 	{#if !parentPageShown}
 	<div class="startButton" on:click={start}>Начать</div>
 	<div class="startButton parentButton" on:click={parentPage}>Родителям</div>

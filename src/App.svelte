@@ -34,16 +34,23 @@ function nextLevel() {
 .placeholder {
 	pointer-events: auto;
 }
+.App {
+	display: flex;
+	flex-direction: column;
+}
+
 </style>
+<div class="App">
 <div>Уровень: {level.level}</div>
 <div>Ошибок: {level.levelMiss}</div>
 <div>Правильных: {level.levelSolves}</div>
 {#if inGame}
 <Tasks tasks={tasks}/>
 {#if !next}
-<Answers tasks={answers}/>
+<Answers class="answers" tasks={answers}/>
 {/if}
 {/if}
 {#if next}
 <button class:hidden={!next} on:click={nextLevel}>Дальше</button>
 {/if}
+</div>

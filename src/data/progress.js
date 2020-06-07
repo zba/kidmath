@@ -8,9 +8,8 @@ let levelMiss = 0;
 export const nextTasks = () => {
 	const limit = 5;
 	const operators = getOperators();
-	const maxNumber = getMaxNumber() || 1;
-	console.log(level, operators, maxNumber, getNumberOfOperators());
-	return generateTasks({ operators, maxNumber }).slice(0, limit + 1);
+	console.log(level, operators, getNumberOfOperators());
+	return generateTasks({ operators }).slice(0, limit + 1);
 };
 export const getLevel = () => {
 	return { level, levelSolves, levelMiss };
@@ -27,7 +26,7 @@ document.addEventListener('correct', () => {
 	if (levelSolves > 3) {
 		inRowLevelUp++;
 		if (inRowLevelUp > 2) {
-			level *= 2;
+			level = Math.round(level * 1.2);
 			inRowLevelUp = 0;
 		} else {
 			level++;
@@ -63,12 +62,12 @@ document.addEventListener('incorrect', () => {
 });
 // eslint-disable-next-line no-return-assign
 document.addEventListener('nextLevel', () => inGameEnd = false);
-function getMaxNumber() {
-	return Math.floor(level / getNumberOfOperators() / 2) + 2;
+function getMaxNumber(operatorNumber) {
+	return Math.floor(level / (operatorNumber + 1)) + 2;
 }
 
 function getNumberOfOperators() {
-	const operators = Math.floor(level / 20) + 1;
+	const operators = Math.floor(level / 30) + 1;
 	return operators > 4 ? 4 : operators;
 }
 
@@ -90,14 +89,15 @@ function getOperators() {
 function generateTasks({ operators = ['+'], maxNumber = 10, onlyPositive = true, onlyInteger = true }) {
 	const tasks = [];
 	let id = 0;
-	for (const operator of operators) {
-		for (let i = 0; i <= maxNumber; i++) {
-			for (let n = 0; n <= maxNumber; n++) {
+	for (let operatorNumber = 0; operatorNumber < operators.length; operatorNumber++) {
+		const operator = operators[operatorNumber];
+		for (let i = 0; i <= getMaxNumber(operatorNumber); i++) {
+			for (let n = 0; n <= getMaxNumber(operatorNumber); n++) {
 				if (operations[operator]) {
 					const result = operations[operator](i, n);
 					const task = `${i} ${operator} ${n}`;
 					if (result !== null &&
-						result * 3 < maxNumber * 2 &&
+						result < level + 10 &&
 						(onlyPositive ? result >= 0 : true) &&
 						(onlyInteger ? result === Math.ceil(result) : true)) {
 						tasks.push({ task, result, answered: {}, id });

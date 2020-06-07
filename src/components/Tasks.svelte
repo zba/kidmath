@@ -26,6 +26,9 @@ async function speak(i = 0) {
 	const task=tasks[i];
 	console.log(tasks, i);
 	tasks[i].speaking = true;
+	const correct = task.result === task.answered;
+	speech.setPitch(correct ? 1 : 0.8);
+	speech.setRate(correct ? 2 : 0.8);
 	await speech.speak({
 		text: `${task.task} = ${task.result}`,
 			listeners: {onend: ()=>console.log('end')}

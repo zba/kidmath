@@ -14,8 +14,8 @@ function parentPage() {
 </script>
 <style>
 .startButton {
-	width: 50%;
 	height: 50%;
+	width: 100%;
 	font-size: 30px;
 	display: flex;
 	place-content: center;

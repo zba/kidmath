@@ -9,10 +9,12 @@
 	document.addEventListener('done', () => done=true)
 	const flipDurationMs = 300;
 	function handleDndConsider(e) {
+		document.dispatchEvent(new CustomEvent('dragStarted'));
 			items = e.detail.items;
 			// dropFromOthersDisabled = Boolean(items.length);
 	}
 	function handleDndFinalize(e) {
+			document.dispatchEvent(new CustomEvent('dragFinalized'));
 			items = e.detail.items;
 			task.answered = (items[0] || {}).result;
 			dropFromOthersDisabled = Boolean(items.length);

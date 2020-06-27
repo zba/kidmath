@@ -29,10 +29,29 @@ let next;
 let timer;
 let inGame = true;
 let done;
+let finishDrag;
+let finishDragResolve = () => {};
 document.addEventListener('correct', solved);
 document.addEventListener('incorrect', solved);
 document.addEventListener('done', ()=>clearTimeout(timerTimeout));
 document.addEventListener('showNext', ()=>{done = true})
+document.addEventListener('dragStarted', dragStarted);
+document.addEventListener('dragFinalized', dragEnded);
+
+
+function dragStarted () {
+	console.debug('dragStarted')
+	finishDrag = finishDrag || new Promise(resolve => finishDragResolve = resolve);
+};
+
+
+function dragEnded () {
+	console.debug('dragEnd');
+	finishDrag = null;
+	setTimeout(() =>  {
+		finishDragResolve();
+	},100);
+};
 
 nextLevel();
 function solved() {
@@ -41,13 +60,14 @@ function solved() {
 }
 let timerTimeout;
 let lowTime;
-function tick(time) {
+async function tick(time) {
 	if (!timer) {
 		return setTimeout(()=>tick(time), 100);
 	}
 	if (time < 0) {
+		await finishDrag;
 		document.dispatchEvent(new CustomEvent('done'));
-		retrun;
+		return;
 	}
 	lowTime = false;
 	if (time < 5) {
